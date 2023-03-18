@@ -1,6 +1,6 @@
 # Biny
 
-Are you tiered of forgetting what bin you need to put out every week? Biny is the project for you. Bellow you will find steps, guides and links to materials for creating a small discrete bin that will glow with the colour of the appropriate bin. 
+Are you tierd of forgetting what bin you need to put out every week? Biny is the project for you. Bellow you will find steps, guides and links to materials for creating a small discrete bin that will glow with the colour of the appropriate bin. 
 
 ## Materials
 Here is the list of materials you will need. You are not limited to these exact list but if you are not comfortable with electronics and this is your first project keep to the list for optimal results.

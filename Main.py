@@ -114,7 +114,7 @@ async def getBin():
     return nextBin
         
 async def click_a_tag_and_parse_updated_html(pageUrl):
-    browser = await launch(headless=True)
+    browser = await launch(headless=True, product='chrome', executablePath='/usr/bin/chromium-browser')
     page = await browser.newPage()
     await page.goto(pageUrl)
 

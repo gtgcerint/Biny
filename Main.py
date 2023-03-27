@@ -101,7 +101,7 @@ def getBin():
     while len(imgs) == 0:
         td = td.next_sibling
         if(td == None and tryNext):
-            soup = click_a_tag_and_parse_updated_html(url)
+            soup = await click_a_tag_and_parse_updated_html(url)
             table = soup.find(id="Application_Calendar") # find the table by id
             td = table.find("td", class_=lambda t: t and "CalendarTodayDayStyle CalendarDayStyle" in t) # find the td by style 
             tryNext = False      

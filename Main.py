@@ -43,6 +43,14 @@ def setError(e):
     pi.set_PWM_dutycycle(stripTwoGreen, 0)
     pi.set_PWM_dutycycle(stripTwoBlue, 0)
 
+def EOM():    
+    pi.set_PWM_dutycycle(stripOneRed, 255)
+    pi.set_PWM_dutycycle(stripOneGreen, 255)
+    pi.set_PWM_dutycycle(stripOneBlue, 0)
+    pi.set_PWM_dutycycle(stripTwoRed, 255)
+    pi.set_PWM_dutycycle(stripTwoGreen, 255)
+    pi.set_PWM_dutycycle(stripTwoBlue, 0)
+
 def setSingle(bin):
 
     if bin in bin_colors:
@@ -98,18 +106,13 @@ async def getBin():
     imgs = td.find_all("img")
 
     arch = platform.machine()
-    if arch == 'armv6l':
-        print('This is a Raspberry Pi with ARMv6 architecture')
-        print('It Can not Run browsers so it wont update corretly until the month has changed')
+    if arch == 'armv6l':        
         tryNext = False
-    elif arch == 'armv7l':
-        print('This is a Raspberry Pi with ARMv7 architecture')
+    elif arch == 'armv7l':        
         tryNext = True
-    elif arch == 'aarch64':
-        print('This is a Raspberry Pi with ARMv8 architecture')
+    elif arch == 'aarch64':        
         tryNext = True
-    else:
-        print('This is not a Raspberry Pi')
+    else:        
         tryNext = False
             
     while len(imgs) == 0:
@@ -120,6 +123,9 @@ async def getBin():
             td = table.find("td", class_=lambda t: t and "CalendarTodayDayStyle CalendarDayStyle" in t) # find the td by style 
             tryNext = False      
 
+        if(td == None and tryNext == False):
+             return "EOM"
+        
         imgs = td.find_all("img")
 
     words = ["greenBin", "blueBin", "brownBin", "purpleBin"] # list of words to check
@@ -173,16 +179,16 @@ if __name__ == '__main__':     # Program entrance
                 sleep(5)
 
                 nextBins = asyncio.run(getBin())
-                if(len(nextBins.split(",")) == 1):
-                    setSingle(nextBins)
-                elif(len(nextBins.split(",")) == 2):
-                    setDouble(nextBins)
+                if(nextBins == "EOM"):
+                     EOM()
                 else:
-                    raise ValueError('getBin() Returned unexpected value')
-            except Exception as e:                                
-                print(e)
-                print('To use the browser and move to the next month armv7 arch is needed.')
-                print('if you are using armv6 the biny will remain in error state until the month changes on the website.')
+                    if(len(nextBins.split(",")) == 1):
+                        setSingle(nextBins)
+                    elif(len(nextBins.split(",")) == 2):
+                        setDouble(nextBins)
+                    else:
+                        raise ValueError('getBin() Returned unexpected value')
+            except Exception as e:                                                
                 setError(e)
 
             print ('Runned -pausing for 3h')  

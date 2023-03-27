@@ -167,7 +167,7 @@ if __name__ == '__main__':     # Program entrance
                 setError(e)
 
             print ('Runned -pausing for 1h')  
-            sleep(3600)
+            sleep(10800)
             pass
     except KeyboardInterrupt:  # Press ctrl-c to end the program.
         log_exception("Terminated By User")

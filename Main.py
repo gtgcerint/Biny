@@ -57,9 +57,7 @@ def setSingle(bin):
     pi.set_PWM_dutycycle(stripTwoRed, red_value)
     pi.set_PWM_dutycycle(stripTwoGreen, green_value)
     pi.set_PWM_dutycycle(stripTwoBlue, blue_value)
-    
-        
-    
+                
 def setDouble(bins):
     bin1 = bins.split(",")[0]
     bin2 = bins.split(",")[1]    
@@ -114,10 +112,7 @@ def getBin():
     nextBin = ",".join([word for img in imgs for word in words if word in img["src"]]) # join the words that are in the src attribute of each image    
     print ('End getBin: ' + nextBin)  
     return nextBin
-
-
         
-
 def click_a_tag_and_parse_updated_html(pageUrl):
     browser = await launch(headless=True)
     page = await browser.newPage()
@@ -130,7 +125,7 @@ def click_a_tag_and_parse_updated_html(pageUrl):
     await a_tag.click()
 
     # Wait for the page to update (you may need to adjust the time depending on the page)
-    await asyncio.sleep(3)
+    await asyncio.sleep(10)
 
     # Get the updated HTML content
     updated_html = await page.content()

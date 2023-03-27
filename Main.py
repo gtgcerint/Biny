@@ -115,23 +115,23 @@ async def getBin():
         
 async def click_a_tag_and_parse_updated_html(pageUrl):
     browser = await launch(headless=True, product='chrome', executablePath='/usr/bin/chromium-browser')
-    print('B1')
+    
     page = await browser.newPage()
-    print('B2')
+    
     await page.goto(pageUrl)
-    print('B3')
+    
     # Find the <a> tag with the specified title
     a_tag = await page.querySelector("a[title='Go to the next month']")
-    print('B4')
+    
     # Click the <a> tag
     await a_tag.click()
-    print('B5')
+    
     # Wait for the page to update (you may need to adjust the time depending on the page)
     await asyncio.sleep(120)
-    print('B6')
+    
     # Get the updated HTML content
     updated_html = await page.content()
-    print(updated_html)
+    
     # Parse the updated HTML content with BeautifulSoup
     soup = BeautifulSoup(updated_html, 'html.parser')
 
@@ -167,6 +167,8 @@ if __name__ == '__main__':     # Program entrance
                     raise ValueError('getBin() Returned unexpected value')
             except Exception as e:                                
                 print(e)
+                print('To use the browser and move to the next month armv7 arch is needed')
+                print('if you are using armv6 the biny will remain in error state until the month changes on the website')
                 setError(e)
 
             print ('Runned -pausing for 3h')  

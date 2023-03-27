@@ -109,7 +109,7 @@ Once booter connect with putty and:
 2) Install pigpio http://abyz.me.uk/rpi/pigpio/download.html
 3) sudo apt update
 4) sudo apt install chromium-browser
-5) pip install pyppeteer
+5) pip install pyppeteer 
 
 
 ## Have the script and pingpi start on reboot:
@@ -117,6 +117,11 @@ connect to raspi and run: crontab -e
 and on the end add:
 @reboot sudo pigpiod
 @reboot sudo python3 /home/biny/Projects/Biny/Main.py <- path to the python file
+
+## Issues
+Towards the end of the month the Biny may enter an error state. This is due to the website not showing the first few days on the next month. 
+If you are using a ras pi zero 2 w or any ras pi on the armv7 architecture then code has been added to get the html of the next month. 
+However armv6 architecture modules will not work with this code and the biny will stay in error state until the month changes. 
 
 
 

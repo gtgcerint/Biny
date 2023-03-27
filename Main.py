@@ -166,7 +166,7 @@ if __name__ == '__main__':     # Program entrance
             except Exception as e:                
                 setError(e)
 
-            print ('Runned -pausing for 1h')  
+            print ('Runned -pausing for 3h')  
             sleep(10800)
             pass
     except KeyboardInterrupt:  # Press ctrl-c to end the program.

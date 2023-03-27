@@ -104,6 +104,10 @@ Insert it to you RasPi and connect it to a power supply only for the RasPi until
 Once booter connect with putty and:
 1) Update / Upgrade
 2) Install pigpio http://abyz.me.uk/rpi/pigpio/download.html
+sudo apt update
+sudo apt install chromium-browser
+pip install pyppeteer
+
 
 ## Have the script and pingpi start on reboot:
 connect to raspi and run: crontab -e 

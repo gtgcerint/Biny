@@ -1,9 +1,12 @@
 import urllib.request
 import pigpio
+import asyncio
 from bs4 import BeautifulSoup
 
 from time import sleep, strftime
 from datetime import datetime
+from pyppeteer import launch
+
 
 pi = pigpio.pi()
 
@@ -88,21 +91,57 @@ def setup():
 def getBin():      
     print ('Start getBin')   
     url = "https://www.glasgow.gov.uk/forms/refuseandrecyclingcalendar/CollectionsCalendar.aspx?UPRN=906700527049"
+    
     response = urllib.request.urlopen(url)
     html = response.read().decode("utf8")
     soup = BeautifulSoup(html, "html.parser")
     table = soup.find(id="Application_Calendar") # find the table by id
     td = table.find("td", title=lambda t: t and "today" in t.lower()) # find the td by style
     imgs = td.find_all("img")
-
+        
+    tryNext = True
     while len(imgs) == 0:
         td = td.next_sibling
+        if(td == None and tryNext):
+            soup = click_a_tag_and_parse_updated_html(url)
+            table = soup.find(id="Application_Calendar") # find the table by id
+            td = table.find("td", class_=lambda t: t and "CalendarTodayDayStyle CalendarDayStyle" in t) # find the td by style 
+            tryNext = False      
+
         imgs = td.find_all("img")
 
     words = ["greenBin", "blueBin", "brownBin", "purpleBin"] # list of words to check
     nextBin = ",".join([word for img in imgs for word in words if word in img["src"]]) # join the words that are in the src attribute of each image    
     print ('End getBin: ' + nextBin)  
     return nextBin
+
+
+        
+
+def click_a_tag_and_parse_updated_html(pageUrl):
+    browser = await launch(headless=True)
+    page = await browser.newPage()
+    await page.goto(pageUrl)
+
+    # Find the <a> tag with the specified title
+    a_tag = await page.querySelector("a[title='Go to the next month']")
+
+    # Click the <a> tag
+    await a_tag.click()
+
+    # Wait for the page to update (you may need to adjust the time depending on the page)
+    await asyncio.sleep(3)
+
+    # Get the updated HTML content
+    updated_html = await page.content()
+
+    # Parse the updated HTML content with BeautifulSoup
+    soup = BeautifulSoup(updated_html, 'html.parser')
+
+    # Close the browser
+    await browser.close()
+
+    return soup
 
 def destroy():
     allOff()

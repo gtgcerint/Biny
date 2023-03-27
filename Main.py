@@ -113,7 +113,7 @@ def getBin():
     print ('End getBin: ' + nextBin)  
     return nextBin
         
-def click_a_tag_and_parse_updated_html(pageUrl):
+async def click_a_tag_and_parse_updated_html(pageUrl):
     browser = await launch(headless=True)
     page = await browser.newPage()
     await page.goto(pageUrl)

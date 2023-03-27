@@ -115,18 +115,20 @@ async def getBin():
         
 async def click_a_tag_and_parse_updated_html(pageUrl):
     browser = await launch(headless=True, product='chrome', executablePath='/usr/bin/chromium-browser')
+    print('B1')
     page = await browser.newPage()
+    print('B2')
     await page.goto(pageUrl)
-
+    print('B3')
     # Find the <a> tag with the specified title
     a_tag = await page.querySelector("a[title='Go to the next month']")
-
+    print('B4')
     # Click the <a> tag
     await a_tag.click()
-
+    print('B5')
     # Wait for the page to update (you may need to adjust the time depending on the page)
     await asyncio.sleep(120)
-
+    print('B6')
     # Get the updated HTML content
     updated_html = await page.content()
     print(updated_html)

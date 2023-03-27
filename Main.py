@@ -163,7 +163,8 @@ if __name__ == '__main__':     # Program entrance
                     setDouble(nextBins)
                 else:
                     raise ValueError('getBin() Returned unexpected value')
-            except Exception as e:                
+            except Exception as e:                                
+                print(e)
                 setError(e)
 
             print ('Runned -pausing for 3h')  

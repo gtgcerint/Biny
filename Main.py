@@ -125,11 +125,11 @@ async def click_a_tag_and_parse_updated_html(pageUrl):
     await a_tag.click()
 
     # Wait for the page to update (you may need to adjust the time depending on the page)
-    await asyncio.sleep(10)
+    await asyncio.sleep(120)
 
     # Get the updated HTML content
     updated_html = await page.content()
-
+    print(updated_html)
     # Parse the updated HTML content with BeautifulSoup
     soup = BeautifulSoup(updated_html, 'html.parser')
 

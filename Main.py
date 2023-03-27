@@ -86,7 +86,7 @@ def setup():
     #GPIO.setmode(GPIO.BOARD)         # use PHYSICAL GPIO Numbering        
     print ('End setup')  
 
-def getBin():      
+async def getBin():      
     print ('Start getBin')   
     url = "https://www.glasgow.gov.uk/forms/refuseandrecyclingcalendar/CollectionsCalendar.aspx?UPRN=906700527049"
     
@@ -156,7 +156,7 @@ if __name__ == '__main__':     # Program entrance
                 allOff()
                 sleep(5)
 
-                nextBins = getBin()
+                nextBins = await getBin()
                 if(len(nextBins.split(",")) == 1):
                     setSingle(nextBins)
                 elif(len(nextBins.split(",")) == 2):

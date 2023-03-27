@@ -1,12 +1,12 @@
 import urllib.request
 import pigpio
 import asyncio
+import platform
 from bs4 import BeautifulSoup
 
 from time import sleep, strftime
 from datetime import datetime
 from pyppeteer import launch
-
 
 pi = pigpio.pi()
 
@@ -96,8 +96,22 @@ async def getBin():
     table = soup.find(id="Application_Calendar") # find the table by id
     td = table.find("td", title=lambda t: t and "today" in t.lower()) # find the td by style
     imgs = td.find_all("img")
-        
-    tryNext = True
+
+    arch = platform.machine()
+    if arch == 'armv6l':
+        print('This is a Raspberry Pi with ARMv6 architecture')
+        print('It Can not Run browsers so it wont update corretly until the month has changed')
+        tryNext = False
+    elif arch == 'armv7l':
+        print('This is a Raspberry Pi with ARMv7 architecture')
+        tryNext = True
+    elif arch == 'aarch64':
+        print('This is a Raspberry Pi with ARMv8 architecture')
+        tryNext = True
+    else:
+        print('This is not a Raspberry Pi')
+        tryNext = False
+            
     while len(imgs) == 0:
         td = td.next_sibling
         if(td == None and tryNext):

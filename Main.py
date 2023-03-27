@@ -156,7 +156,7 @@ if __name__ == '__main__':     # Program entrance
                 allOff()
                 sleep(5)
 
-                nextBins = await getBin()
+                nextBins = asyncio.run(getBin())
                 if(len(nextBins.split(",")) == 1):
                     setSingle(nextBins)
                 elif(len(nextBins.split(",")) == 2):

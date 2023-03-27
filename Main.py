@@ -167,8 +167,8 @@ if __name__ == '__main__':     # Program entrance
                     raise ValueError('getBin() Returned unexpected value')
             except Exception as e:                                
                 print(e)
-                print('To use the browser and move to the next month armv7 arch is needed')
-                print('if you are using armv6 the biny will remain in error state until the month changes on the website')
+                print('To use the browser and move to the next month armv7 arch is needed.')
+                print('if you are using armv6 the biny will remain in error state until the month changes on the website.')
                 setError(e)
 
             print ('Runned -pausing for 3h')  

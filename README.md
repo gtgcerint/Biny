@@ -122,3 +122,11 @@ and on the end add:
 Towards the end of the month the Biny may enter an error state. This is due to the website not showing the first few days on the next month. 
 If you are using a ras pi zero 2 w or any ras pi on the armv7 architecture then code has been added to get the html of the next month. 
 However armv6 architecture modules will not work with this code and the biny will stay in error state until the month changes. 
+
+
+
+
+
+
+
+

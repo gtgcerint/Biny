@@ -5,3 +5,5 @@
 /BinyAPI/BinyAPI/obj
 /BinyAPI/BinyAPI/bin
 /BinyAPI/BinyAPI/Properties/PublishProfiles
+/BinyAPI/.vs/BinyAPI
+/.vscode

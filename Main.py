@@ -1,12 +1,8 @@
-import urllib.request
 import pigpio
-import asyncio
-import platform
-from bs4 import BeautifulSoup
-
+import requests
 from time import sleep, strftime
 from datetime import datetime
-from pyppeteer import launch
+
 
 pi = pigpio.pi()
 
@@ -94,72 +90,6 @@ def setup():
     #GPIO.setmode(GPIO.BOARD)         # use PHYSICAL GPIO Numbering        
     print ('End setup')  
 
-async def getBin():      
-    print ('Start getBin')   
-    url = "https://www.glasgow.gov.uk/forms/refuseandrecyclingcalendar/CollectionsCalendar.aspx?UPRN=906700527049"
-    
-    response = urllib.request.urlopen(url)
-    html = response.read().decode("utf8")
-    soup = BeautifulSoup(html, "html.parser")
-    table = soup.find(id="Application_Calendar") # find the table by id
-    td = table.find("td", title=lambda t: t and "today" in t.lower()) # find the td by style
-    imgs = td.find_all("img")
-
-    arch = platform.machine()
-    if arch == 'armv6l':        
-        tryNext = False
-    elif arch == 'armv7l':        
-        tryNext = True
-    elif arch == 'aarch64':        
-        tryNext = True
-    else:        
-        tryNext = False
-            
-    while len(imgs) == 0:
-        td = td.next_sibling
-        if(td == None and tryNext):
-            soup = await click_a_tag_and_parse_updated_html(url)
-            table = soup.find(id="Application_Calendar") # find the table by id
-            td = table.find("td", class_=lambda t: t and "CalendarTodayDayStyle CalendarDayStyle" in t) # find the td by style 
-            tryNext = False      
-
-        if(td == None and tryNext == False):
-             return "EOM"
-        
-        imgs = td.find_all("img")
-
-    words = ["greenBin", "blueBin", "brownBin", "purpleBin"] # list of words to check
-    nextBin = ",".join([word for img in imgs for word in words if word in img["src"]]) # join the words that are in the src attribute of each image    
-    print ('End getBin: ' + nextBin)  
-    return nextBin
-        
-async def click_a_tag_and_parse_updated_html(pageUrl):
-    browser = await launch(headless=True, product='chrome', executablePath='/usr/bin/chromium-browser')
-    
-    page = await browser.newPage()
-    
-    await page.goto(pageUrl)
-    
-    # Find the <a> tag with the specified title
-    a_tag = await page.querySelector("a[title='Go to the next month']")
-    
-    # Click the <a> tag
-    await a_tag.click()
-    
-    # Wait for the page to update (you may need to adjust the time depending on the page)
-    await asyncio.sleep(120)
-    
-    # Get the updated HTML content
-    updated_html = await page.content()
-    
-    # Parse the updated HTML content with BeautifulSoup
-    soup = BeautifulSoup(updated_html, 'html.parser')
-
-    # Close the browser
-    await browser.close()
-
-    return soup
-
 def destroy():
     allOff()
     pi.stop()
@@ -169,6 +99,17 @@ def log_exception(e):
     with open("exceptions.log", "a") as f:
         f.write(f"{datetime.now()}: {e}\n")     
 
+def get_api_response(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.text
+        else:
+            return "Error: API returned status code {}".format(response.status_code)
+    except requests.exceptions.RequestException as e:
+        setError(e)
+        return "Error: {}".format(str(e))
+
 if __name__ == '__main__':     # Program entrance    
     setup()
                     
@@ -177,17 +118,13 @@ if __name__ == '__main__':     # Program entrance
             try:
                 allOff()
                 sleep(5)
-
-                nextBins = asyncio.run(getBin())
-                if(nextBins == "EOM"):
-                     EOM()
+                nextBins = get_api_response("https://biny.cerint.org/Biny?UPRN=906700527049")                                                
+                if(len(nextBins.split(",")) == 1):
+                    setSingle(nextBins)
+                elif(len(nextBins.split(",")) == 2):
+                    setDouble(nextBins)
                 else:
-                    if(len(nextBins.split(",")) == 1):
-                        setSingle(nextBins)
-                    elif(len(nextBins.split(",")) == 2):
-                        setDouble(nextBins)
-                    else:
-                        raise ValueError('getBin() Returned unexpected value')
+                    raise ValueError('getBin() Returned unexpected value')
             except Exception as e:                                                
                 setError(e)
 

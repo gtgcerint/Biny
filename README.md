@@ -71,7 +71,7 @@ And now for the tricky bit. From the big spool of the LED strip cut 2 pieces. Yo
 
 Do the same again for the other 3 mosfets and strip.
 ![20230410_141343](https://user-images.githubusercontent.com/63113549/235352831-898ea130-e0ab-420d-a9b7-f78833d628c9.jpg)
-![20230410_135313](https://user-images.githubusercontent.com/63113549/235352835-a392743a-e67a-4056-8d01-88be6bf94719.jpg)
+
 
 Now onto the RasPi. Pick 6 pins on the pi and connect the left pin of each mosfet to them. You shound be carefull not to connect the ground of the mosfets to them.
 Now twist together the grounds of the mosfets in pairs of 3 and use a 5 port wire connector to clamp them in.

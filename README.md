@@ -62,44 +62,30 @@ Since in Glasgow you may have up to 2 bins to be picked up in a day you will nee
 ![image](https://user-images.githubusercontent.com/63113549/226122561-6bd39d21-73c8-4abd-bef7-2ef9d3e33c21.png)
 
 Next connect a wire to the middle pin. The midle pin will be then connected to the strip so choose a color for each R/G/B.
-"Photos will follow soon"
-
 Last with do the same to the left pin. Those will be connected to the RasPi so keep the color sceme the same. 
-"Photos will follow soon"
+![20230410_135441](https://user-images.githubusercontent.com/63113549/235352774-77b66324-aa37-4e65-abbe-34516789efa0.jpg)
 
 And now for the tricky bit. From the big spool of the LED strip cut 2 pieces. You then need to Connect the cables from the midle pin of each mosfet to each R, G & B pad on the strip. The last pad 24v+ should also get a cable soldered as it will be then connected to the power. 
-"Photos will follow soon"
+![20230410_134838](https://user-images.githubusercontent.com/63113549/235352799-bda44cc4-bdd1-4f39-a3e0-b90117a70dca.jpg)
+![20230410_134849](https://user-images.githubusercontent.com/63113549/235352819-239770c9-266b-4e9a-a6c8-64500ddb94bb.jpg)
 
 Do the same again for the other 3 mosfets and strip.
+![20230410_141343](https://user-images.githubusercontent.com/63113549/235352831-898ea130-e0ab-420d-a9b7-f78833d628c9.jpg)
+
 
 Now onto the RasPi. Pick 6 pins on the pi and connect the left pin of each mosfet to them. You shound be carefull not to connect the ground of the mosfets to them.
-"Photos will follow soon"
-
 Now twist together the grounds of the mosfets in pairs of 3 and use a 5 port wire connector to clamp them in.
-"Photos will follow soon"
-
 Use another black cable to connect one of the ground pins on the RasPi to the 5 port wire connector
-"Photos will follow soon"
-
 Now also connect the black cable from the step down psu to the 5 port wire connector
-"Photos will follow soon"
-
 Time for the power cables. 
 Twist together the 24v+ cable from the strips. 
-"Photos will follow soon"
-
 Get a 3 port wire connector and use one of the ports for the twisted pair form the strips
-"Photos will follow soon"
-
 Connect the red cable from the step down psu to the 3 pin wire connector
-"Photos will follow soon"
 
 Now to the dangerous bit. 
 Locate the compatible power supply jack and use the 2 ports to connect a red and black cable to the (+) & (-) ports respectively
-"Photos will follow soon"
 
 Now the 2 wire connectos should have only one port free. connect the black wire from the power supply to the 5 port one and the red wire from the power supply to the 3port one
-"Photos will follow soon"
 
 ## RasPi Install and Config.
 Install the raspi os lite on a SD card. 

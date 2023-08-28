@@ -13,12 +13,10 @@ namespace BinyAPI.Controllers
     {
         [HttpGet(Name = "GetBin")]
         public string GetBin(string UPRN)
-        {
-            //906700527049
+        {            
             var url = "https://www.glasgow.gov.uk/forms/refuseandrecyclingcalendar/CollectionsCalendar.aspx?UPRN=" + UPRN;
             return GetNextBins(url);
-
-        }
+        }        
 
         private string GetNextBins(string url)
         {

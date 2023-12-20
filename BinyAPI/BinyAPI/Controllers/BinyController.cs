@@ -13,10 +13,10 @@ namespace BinyAPI.Controllers
     {
         [HttpGet(Name = "GetBin")]
         public string GetBin(string UPRN)
-        {            
+        {
             var url = "https://www.glasgow.gov.uk/forms/refuseandrecyclingcalendar/CollectionsCalendar.aspx?UPRN=" + UPRN;
             return GetNextBins(url);
-        }        
+        }
 
         private string GetNextBins(string url)
         {
@@ -59,12 +59,12 @@ namespace BinyAPI.Controllers
             }
 
             var todayTd = calendarTable.Descendants("td")
-                .FirstOrDefault(td => (td.GetAttributeValue("title", "").Contains("today")) 
+                .FirstOrDefault(td => (td.GetAttributeValue("title", "").Contains("today"))
                 || (td.GetAttributeValue("class", "").Contains("CalendarTodayDayStyle CalendarDayStyle") && isNextMonth));
-           
+
             while (todayTd != null)
             {
-                var imgs = todayTd.Descendants("img");                
+                var imgs = todayTd.Descendants("img");
 
                 if (imgs.Count() > 0)
                 {
@@ -72,7 +72,21 @@ namespace BinyAPI.Controllers
                     return nextBin;
                 }
 
-                todayTd = todayTd.NextSibling;
+                if (todayTd.NextSibling != null)
+                {
+                    todayTd = todayTd.NextSibling;
+                }
+                else
+                {
+                    if(todayTd.ParentNode.NextSibling != null)
+                    {
+                    todayTd = todayTd.ParentNode.NextSibling.FirstChild;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
                 //while (todayTd != null && todayTd.NodeType != HtmlNodeType.Element)
                 //{
                 //    todayTd = todayTd.NextSibling;
